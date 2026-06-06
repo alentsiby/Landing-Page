@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* ── DESIGN TOKENS ─────────────────────────────────────── */
+:root {
+  --c-bg:       #020409;
+  --c-surface:  #060d1a;
+  --c-surface2: #0a1628;
+  --c-cyan:     #00d4ff;
+  --c-green:    #00ff88;
+  --c-red:      #ff003c;
+  --c-purple:   #8b5cf6;
+  --c-gold:     #ffb800;
+  --c-border:   rgba(0,212,255,0.15);
+  --c-text:     #8ca8b8;
+}
+
+/* ── RESET & BASE ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html  { scroll-behavior: smooth; }
+body  {
+  background: var(--c-bg);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 3px; }
+::-webkit-scrollbar-track { background: var(--c-surface); }
+::-webkit-scrollbar-thumb { background: var(--c-cyan); border-radius: 2px; }
+
+/* ── TEXT SELECTION ────────────────────────────────────── */
+::selection { background: rgba(0,212,255,0.2); color: var(--c-cyan); }
+
+/* ── FONTS ─────────────────────────────────────────────── */
+.font-orbitron   { font-family: 'Orbitron', monospace; }
+.font-cyber-mono { font-family: 'Share Tech Mono', monospace; }
+
+/* ── SCANLINES (CRT effect) ────────────────────────────── */
+.scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+}
+
+/* ── HEX GRID BACKGROUND ───────────────────────────────── */
+.hex-grid {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 0v34' fill='none' stroke='%2300d4ff' stroke-opacity='0.02' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* ── GLITCH TEXT ────────────────────────────────────────── */
+.glitch { position: relative; display: inline-block; cursor: pointer; transition: color 0.3s; }
+.glitch:hover { color: #fff; }
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  font-size: inherit; font-weight: inherit; font-family: inherit;
+  line-height: inherit; letter-spacing: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.glitch:hover::before {
+  opacity: 1;
+  color: var(--c-green);
+  animation: glitch1 1.5s infinite linear;
+  mix-blend-mode: screen;
+}
+.glitch:hover::after {
+  opacity: 1;
+  color: var(--c-red);
+  animation: glitch2 1.5s infinite linear;
+  mix-blend-mode: screen;
+}
+
+@keyframes glitch1 {
+  0%,100%{ clip-path:inset(0 0 99% 0); transform:translate(-3px,0); }
+  20%    { clip-path:inset(8%  0 88% 0); transform:translate( 3px,0); }
+  40%    { clip-path:inset(42% 0 52% 0); transform:translate(-2px,0); }
+  60%    { clip-path:inset(68% 0 25% 0); transform:translate( 2px,0); }
+  80%    { clip-path:inset(86% 0  8% 0); transform:translate(-1px,0); }
+}
+@keyframes glitch2 {
+  0%,100%{ clip-path:inset(50% 0 44% 0); transform:translate( 3px,0); }
+  20%    { clip-path:inset(12% 0 82% 0); transform:translate(-3px,0); }
+  40%    { clip-path:inset(62% 0 28% 0); transform:translate( 2px,0); }
+  60%    { clip-path:inset(22% 0 72% 0); transform:translate(-2px,0); }
+  80%    { clip-path:inset(82% 0 12% 0); transform:translate( 1px,0); }
+}
+
+/* ── GLOW HELPERS ───────────────────────────────────────── */
+.glow-cyan   { box-shadow: 0 0 20px rgba(0,212,255,.3), 0 0 40px rgba(0,212,255,.12); }
+.glow-green  { box-shadow: 0 0 20px rgba(0,255,136,.3), 0 0 40px rgba(0,255,136,.12); }
+.glow-red    { box-shadow: 0 0 20px rgba(255,0, 60,.35),0 0 40px rgba(255,0, 60,.15); }
+
+.text-glow-cyan  { text-shadow: 0 0 18px rgba(0,212,255,.9), 0 0 36px rgba(0,212,255,.4); }
+.text-glow-green { text-shadow: 0 0 18px rgba(0,255,136,.9), 0 0 36px rgba(0,255,136,.4); }
+.text-glow-red   { text-shadow: 0 0 18px rgba(255,0, 60,.9), 0 0 36px rgba(255,0, 60,.4); }
+
+/* ── CYBER CARD ─────────────────────────────────────────── */
+.cyber-card {
+  background: linear-gradient(135deg, rgba(0,212,255,.03) 0%, transparent 60%),
+              var(--c-surface);
+  border: 1px solid var(--c-border);
+  transition: border-color .3s, box-shadow .3s;
+}
+.cyber-card:hover {
+  border-color: rgba(0,212,255,.4);
+  box-shadow: 0 0 25px rgba(0,212,255,.08), inset 0 0 20px rgba(0,212,255,.03);
+}
+
+/* Corner bracket decoration */
+.bracket-corners { position: relative; }
+.bracket-corners::before,
+.bracket-corners::after {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  border-color: rgba(0,212,255,.55);
+  border-style: solid;
+}
+.bracket-corners::before { top:-1px; left:-1px; border-width: 2px 0 0 2px; }
+.bracket-corners::after  { bottom:-1px; right:-1px; border-width: 0 2px 2px 0; }
+
+/* ── TICKER ─────────────────────────────────────────────── */
+.ticker-wrap { overflow: hidden; }
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 40s linear infinite;
+}
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── BLINK CURSOR ───────────────────────────────────────── */
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+.cursor-blink { animation: blink 1s step-end infinite; }
+
+/* ── PULSE RING ─────────────────────────────────────────── */
+@keyframes pulseRing {
+  0%  { transform:scale(1); opacity:.8; }
+  100%{ transform:scale(2.4); opacity:0; }
+}
+.pulse-ring { animation: pulseRing 2s ease-out infinite; }
+
+/* ── RETICLE SPIN ───────────────────────────────────────── */
+@keyframes reticleSpin { to { transform: rotate(360deg); } }
+.spin-slow { animation: reticleSpin 12s linear infinite; }
+.spin-slow-reverse { animation: reticleSpin 9s linear infinite reverse; }
+
+/* ── FLICKER ────────────────────────────────────────────── */
+@keyframes flicker {
+  0%,94%,100%{opacity:1;} 95%{opacity:.7;} 97%{opacity:1;} 99%{opacity:.85;}
+}
+.flicker { animation: flicker 7s infinite; }
+
+/* ── SCAN SWEEP ─────────────────────────────────────────── */
+@keyframes sweep { to { transform: rotate(360deg); } }
+.scan-sweep { animation: sweep 4s linear infinite; }
+
+/* ── TERMINAL ───────────────────────────────────────────── */
+.terminal-bg {
+  background: #010812;
+  border: 1px solid rgba(0,212,255,.2);
+}
